@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    stages{
+        stage("print") {
+            steps{
+                echo "This is a nodejs project"
+            }
+        }
+        stage("build nodejs project"){
+            steps{
+                //git changelog: false, credentialsId: 'sowmyaGit_pvtkey', poll: false, url: 'git@github.com:sriyinti/simple-java-maven-app.git'       //sh "git clone git@github.com:sriyinti/simple-java-maven-app.git" //https://sriyinti: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@github.com/sriyinti/simple-java-maven-app.git
+                sh 'docker build -t getting-started .'
+            }
+        }
+        stage("deployment"){
+            steps{
+                sh 'docker run -dp 3000:3000 getting-started'
+                sh 'docker container ls'
+            }
+        }   
+    }
+}
